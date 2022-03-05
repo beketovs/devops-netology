@@ -35,6 +35,7 @@ done
 
 ### Ваш скрипт:
 ```bash
+#!/usr/bin/env bash
 while ((1==1)) # пропущена скобка
 do
 	curl https://localhost:4757
@@ -53,7 +54,23 @@ done
 
 ### Ваш скрипт:
 ```bash
-???
+#!/usr/bin/env bash
+hosts_array=(192.168.0.1 173.194.222.113 87.250.250.242)
+time=3
+for count in {1..5}
+do
+        for host in ${hosts_array[@]}
+        do
+        NOW=$(date)
+        curl -Is --connect-timeout $time $host:80 > /dev/null
+        if test $? == 0
+        then
+                echo "$NOW test for $host = OK" >> hosts.log
+        else
+                echo "$NOW test for $host = FAIL" >> hosts.log
+        fi
+        done
+done
 ```
 
 ## Обязательная задача 4
