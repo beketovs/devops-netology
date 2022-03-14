@@ -96,13 +96,23 @@ test.sh
 import os
 import sys
 
-path = sys.argv[1]
-bash_command = ["cd " + path, "git status"]
+try:
+    path = sys.argv[1]
+    bash_command = ["cd " + path + " 2>&1", "git status 2>&1"]
+except IndexError:
+    print("Задайте директорию для проверки")
+    sys.exit()
 result_os = os.popen(' && '.join(bash_command)).read()
 for result in result_os.split('\n'):
     if result.find('modified') != -1:
         prepare_result = result.replace('\tmodified:   ', '')
         print(path + prepare_result)
+    elif result.find('fatal') != -1:
+        print("Директория не инициализирована под git, попробуйте другую директорию")
+        sys.exit()
+    elif result.find('can\'t cd') != -1:
+        print("Директория задана некорректно или проблема с правами доступа")
+        sys.exit()
 ```
 
 ### Вывод скрипта при запуске при тестировании:
@@ -120,6 +130,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 vagrant@vagrant:~$ ./script.py /tmp/test/
 /tmp/test/1.txt
 /tmp/test/2.txt
+vagrant@vagrant:~$ ./script.py /root
+Директория задана некорректно или проблема с правами доступа
+vagrant@vagrant:~$ ./script.py
+Задайте директорию для проверки
 ```
 
 ## Обязательная задача 4
