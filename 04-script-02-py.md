@@ -91,12 +91,35 @@ test.sh
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import os
+import sys
+
+path = sys.argv[1]
+bash_command = ["cd " + path, "git status"]
+result_os = os.popen(' && '.join(bash_command)).read()
+for result in result_os.split('\n'):
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\tmodified:   ', '')
+        print(path + prepare_result)
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+vagrant@vagrant:/tmp/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   1.txt
+        modified:   2.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+vagrant@vagrant:~$ ./script.py /tmp/test/
+/tmp/test/1.txt
+/tmp/test/2.txt
 ```
 
 ## Обязательная задача 4
