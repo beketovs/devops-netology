@@ -141,12 +141,54 @@ vagrant@vagrant:~$ ./script.py
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import time
+import socket
+
+resolve_dict = dict()
+print("=======FIRST CHECKING========")
+hosts = ["drive.google.com", "mail.google.com", "google.com"]
+for host in hosts:
+    resolve_ip = socket.gethostbyname_ex(host)
+    resolve_dict[host] = [resolve_ip[2][0]]
+    print(f"<{host}> - <{resolve_ip[2][0]}>")
+print("==========END================")
+checking = True
+while checking == True:
+    for host in hosts:
+        old_ip = resolve_dict.get(host)[0]
+        new_ip = socket.gethostbyname_ex(host)[2][0]
+        if old_ip == new_ip:
+            print("IP not changed")
+            time.sleep(5)
+            continue
+        else:
+            print("IP был изменен!!!")
+            print(f"[ERROR] <{host}> IP mismatch: <{old_ip}> <{new_ip}>")
+            checking = False
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+vagrant@vagrant:~$ ./myscript.py
+=======FIRST CHECKING========
+<drive.google.com> - <173.194.222.194>
+<mail.google.com> - <74.125.131.83>
+<google.com> - <216.58.210.174>
+==========END================
+IP not changed
+IP not changed
+IP not changed
+IP not changed
+IP был изменен!!!
+[ERROR] <mail.google.com> IP mismatch: <74.125.131.83> <142.251.1.18>
+IP был изменен!!!
+[ERROR] <google.com> IP mismatch: <216.58.210.174> <216.58.210.142>
+
+В момент работы скрипта в качестве проверки даю команду:
+root@vagrant:/home/vagrant# sudo systemd-resolve --flush-caches
+
 ```
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
