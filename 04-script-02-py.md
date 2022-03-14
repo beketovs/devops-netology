@@ -37,12 +37,53 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import os
+
+bash_command = ["cd ~", "git status"]
+result_os = os.popen(' && '.join(bash_command)).read()
+#is_change = False
+for result in result_os.split('\n'):
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\tmodified:   ', '')
+        print(prepare_result)
+#        break
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+vagrant@vagrant:~$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   curl.log
+        modified:   test.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .bash_history
+        .bash_logout
+        .bashrc
+        .cache/
+        .gitconfig
+        .profile
+        .python_history
+        .ssh/
+        .sudo_as_admin_successful
+        .vbox_version
+        .viminfo
+        .wget-hsts
+        4_2_task.sh
+        4_3_task.sh
+        script.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+vagrant@vagrant:~$ ./script.py
+curl.log
+test.sh
 ```
 
 ## Обязательная задача 3
