@@ -39,22 +39,76 @@
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import time
+import socket
+import json
+import yaml
+
+
+resolve_dict = dict()
+print("=======FIRST CHECKING========")
+hosts = ["drive.google.com", "mail.google.com", "google.com"]
+for host in hosts:
+    resolve_ip = socket.gethostbyname_ex(host)
+    resolve_dict[host] = resolve_ip[2][0]
+    print(f"<{host}> - <{resolve_ip[2][0]}>")
+with open('hosts.json', 'w') as js:
+    js.write(json.dumps(resolve_dict, indent=2))
+with open('hosts.yml', 'w') as ym:
+    ym.write(yaml.dump(resolve_dict, explicit_start=True, explicit_end=True))
+print("==========END================")
+checking = True
+while checking == True:
+    for host in hosts:
+        old_ip = resolve_dict.get(host)
+        new_ip = socket.gethostbyname_ex(host)[2][0]
+        if old_ip == new_ip:
+            print("IP not changed")
+            time.sleep(5)
+            continue
+        else:
+            resolve_dict[host] = new_ip
+            print("IP был изменен!!!")
+            print(f"[ERROR] <{host}> IP mismatch: <{old_ip}> <{new_ip}>")
+            with open('hosts.json', 'w') as js:
+                js.write(json.dumps(resolve_dict, indent=2))
+            with open('hosts.yml', 'w') as ym:
+                ym.write(yaml.dump(resolve_dict, explicit_start=True, explicit_end=True))
+            checking = False
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+vagrant@vagrant:~$ ./myscript.py
+=======FIRST CHECKING========
+<drive.google.com> - <173.194.222.194>
+<mail.google.com> - <64.233.165.19>
+<google.com> - <173.194.222.113>
+==========END================
+IP not changed
+IP not changed
+IP был изменен!!!
+[ERROR] <google.com> IP mismatch: <173.194.222.113> <173.194.220.100>
 ```
 
 ### json-файл(ы), который(е) записал ваш скрипт:
 ```json
-???
+{
+  "drive.google.com": "173.194.222.194",
+  "mail.google.com": "64.233.165.19",
+  "google.com": "173.194.220.100"
+}
 ```
 
 ### yml-файл(ы), который(е) записал ваш скрипт:
 ```yaml
-???
+---
+drive.google.com: 173.194.222.194
+google.com: 173.194.220.100
+mail.google.com: 64.233.165.19
+...
 ```
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
