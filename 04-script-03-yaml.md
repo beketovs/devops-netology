@@ -65,12 +65,12 @@ while checking == True:
         old_ip = resolve_dict.get(host)
         new_ip = socket.gethostbyname_ex(host)[2][0]
         if old_ip == new_ip:
-            print("IP not changed")
+            print("IP not change")
             time.sleep(5)
             continue
         else:
             resolve_dict[host] = new_ip
-            print("IP был изменен!!!")
+            print("IP was change!!!")
             print(f"[ERROR] <{host}> IP mismatch: <{old_ip}> <{new_ip}>")
             with open('hosts.json', 'w') as js:
                 js.write(json.dumps(resolve_dict, indent=2))
@@ -87,9 +87,9 @@ vagrant@vagrant:~$ ./myscript.py
 <mail.google.com> - <64.233.165.19>
 <google.com> - <173.194.222.113>
 ==========END================
-IP not changed
-IP not changed
-IP был изменен!!!
+IP not change
+IP not change
+IP was change!!!
 [ERROR] <google.com> IP mismatch: <173.194.222.113> <173.194.220.100>
 
 В момент работы скрипта в качестве проверки даю команду:
