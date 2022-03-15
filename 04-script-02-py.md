@@ -160,11 +160,11 @@ while checking == True:
         old_ip = resolve_dict.get(host)
         new_ip = socket.gethostbyname_ex(host)[2][0]
         if old_ip == new_ip:
-            print("IP not changed")
+            print("IP not change")
             time.sleep(5)
             continue
         else:
-            print("IP был изменен!!!")
+            print("IP was change!!!")
             print(f"[ERROR] <{host}> IP mismatch: <{old_ip}> <{new_ip}>")
             checking = False
 ```
@@ -177,13 +177,13 @@ vagrant@vagrant:~$ ./myscript.py
 <mail.google.com> - <74.125.131.83>
 <google.com> - <216.58.210.174>
 ==========END================
-IP not changed
-IP not changed
-IP not changed
-IP not changed
-IP был изменен!!!
+IP not change
+IP not change
+IP not change
+IP not change
+IP was change!!!
 [ERROR] <mail.google.com> IP mismatch: <74.125.131.83> <142.251.1.18>
-IP был изменен!!!
+IP was change!!!
 [ERROR] <google.com> IP mismatch: <216.58.210.174> <216.58.210.142>
 
 В момент работы скрипта в качестве проверки даю команду:
