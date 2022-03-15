@@ -91,6 +91,9 @@ IP not changed
 IP not changed
 IP был изменен!!!
 [ERROR] <google.com> IP mismatch: <173.194.222.113> <173.194.220.100>
+
+В момент работы скрипта в качестве проверки даю команду:
+root@vagrant:/home/vagrant# sudo systemd-resolve --flush-caches
 ```
 
 ### json-файл(ы), который(е) записал ваш скрипт:
