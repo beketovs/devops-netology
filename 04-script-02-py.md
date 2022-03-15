@@ -151,13 +151,13 @@ print("=======FIRST CHECKING========")
 hosts = ["drive.google.com", "mail.google.com", "google.com"]
 for host in hosts:
     resolve_ip = socket.gethostbyname_ex(host)
-    resolve_dict[host] = [resolve_ip[2][0]]
+    resolve_dict[host] = resolve_ip[2][0]
     print(f"<{host}> - <{resolve_ip[2][0]}>")
 print("==========END================")
 checking = True
 while checking == True:
     for host in hosts:
-        old_ip = resolve_dict.get(host)[0]
+        old_ip = resolve_dict.get(host)
         new_ip = socket.gethostbyname_ex(host)[2][0]
         if old_ip == new_ip:
             print("IP not changed")
